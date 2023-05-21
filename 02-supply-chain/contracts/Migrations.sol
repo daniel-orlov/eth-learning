@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
+// Migrations contract is used to track the deployment of the smart contract
+// and to update the state of the smart contract
 contract Migrations {
     address public owner;
     uint256 public last_completed_migration;
