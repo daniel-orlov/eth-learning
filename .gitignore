@@ -1,2 +1,5 @@
 # JetBrains IDE
 .idea
+
+# Build files for Truffle
+**/build/contracts
