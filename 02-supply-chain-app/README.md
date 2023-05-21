@@ -1,4 +1,4 @@
-## Smart contract solution for supply chain management
+## SuppChapp - a smart contract solution for supply chain management.
 
 ### Problem statement
 
