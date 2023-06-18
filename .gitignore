@@ -3,3 +3,6 @@
 
 # Build files for Truffle
 **/build/contracts
+
+# Local CLI test files
+**/test/cli
