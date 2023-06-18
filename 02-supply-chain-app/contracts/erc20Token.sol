@@ -8,7 +8,7 @@ contract erc20Token is erc20Interface {
     mapping(address => uint256) public balances;
     mapping(address => mapping(address => uint256)) public allowed;
 
-    uint256 public totalSupply; // total supply of the token
+    uint256 public totalTokenSupply; // total supply of the token
     string public name; // name of the token
     uint8 public decimals; // how many decimals to show on token
     string public symbol; // symbol of token, like ETH, DAI, etc...
@@ -18,9 +18,9 @@ contract erc20Token is erc20Interface {
         string memory _tokenName,
         uint8 _decimalUnits,
         string memory _tokenSymbol
-    ) public {
+    ) {
         balances[msg.sender] = _initialAmount; // Give the creator all initial tokens
-        totalSupply = _initialAmount; // Update total supply
+        totalTokenSupply = _initialAmount; // Update total supply
         name = _tokenName; // Set the name for display purposes
         decimals = _decimalUnits; // Amount of decimals for display purposes
         symbol = _tokenSymbol; // Set the symbol for display purposes
@@ -48,14 +48,14 @@ contract erc20Token is erc20Interface {
         address _to,
         uint256 _value
     ) public override returns (bool success) {
-        uint256 allowance = allowed[_from][msg.sender];
+        uint256 _allowance = allowed[_from][msg.sender];
         require(
-            balances[_from] >= _value && allowance >= _value,
+            balances[_from] >= _value && _allowance >= _value,
             "You do not have enough tokens to transfer"
         ); // Check if the sender has enough
         balances[_to] += _value; // Add the same to the recipient
         balances[_from] -= _value; // Subtract from the sender
-        if (allowance < MAX_UINT256) {
+        if (_allowance < MAX_UINT256) {
             allowed[_from][msg.sender] -= _value;
         }
         emit Transfer(_from, _to, _value); // Notify anyone listening that this transfer took place
@@ -98,6 +98,6 @@ contract erc20Token is erc20Interface {
     }
 
     function totalSupply() public view override returns (uint256 supply) {
-        return totalSupply;
+        return totalTokenSupply;
     }
 }

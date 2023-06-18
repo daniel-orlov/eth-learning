@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 contract SupplyChain {
     uint32 public product_id = 0; // product id
     uint32 public participant_id = 0; // participant id
-    uint32 public owner_id = 0; // ownership id
+    uint32 public ownership_id = 0; // ownership id
 
     struct product {
         string name;
@@ -36,7 +36,7 @@ contract SupplyChain {
 
     event TransferOwnership(uint32 productId);
 
-    function addParticipant(string memory _userName, string memory _password, address _participantAddress, uint32 memory _participantType)
+    function addParticipant(string memory _userName, string memory _password, address _participantAddress, uint32 _participantType)
     public
     returns (uint32)
     {
@@ -46,7 +46,7 @@ contract SupplyChain {
         return _participant_id;
     }
 
-    function getParticipant(uint32 _participant_id) public view returns (string memory, address, string memory) {
+    function getParticipant(uint32 _participant_id) public view returns (string memory, address, uint32) {
         return (participants[_participant_id].userName, participants[_participant_id].participantAddress, participants[_participant_id].participantType);
     }
 
@@ -79,7 +79,7 @@ contract SupplyChain {
     {
         participant memory _previousOwner = participants[_previousOwnerId];
         participant memory _newOwner = participants[_newOwnerId];
-        uint32 ownership_id = ownership_id++;
+        uint32 _ownership_id = ownership_id++;
 
         if(_previousOwner.participantType > _newOwner.participantType) {
             revert("Cannot transfer ownership backwards");
@@ -101,9 +101,9 @@ contract SupplyChain {
             revert("Consumers cannot transfer ownership");
         }
 
-        ownerships[ownership_id] = ownership(_productId, _newOwnerId, uint32(block.timestamp), _newOwner.participantAddress);
+        ownerships[_ownership_id] = ownership(_productId, _newOwnerId, uint32(block.timestamp), _newOwner.participantAddress);
         products[_productId].productOwner = _newOwner.participantAddress;
-        productOwnerships[_productId].push(ownership_id);
+        productOwnerships[_productId].push(_ownership_id);
 
         emit TransferOwnership(_productId);
 
