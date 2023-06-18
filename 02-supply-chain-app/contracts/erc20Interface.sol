@@ -3,7 +3,7 @@
 // https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md
 // ----------------------------------------------------------------------------
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.0;
+pragma solidity >=0.4.22 <0.9.0;
 
 interface erc20Interface {
     function totalSupply() external view returns (uint256 supply);

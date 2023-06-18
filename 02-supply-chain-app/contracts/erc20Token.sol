@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.0;
+pragma solidity >=0.4.22 <0.9.0;
 
 import "./erc20Interface.sol";
 
@@ -18,7 +18,7 @@ contract erc20Token is erc20Interface {
         string memory _tokenName,
         uint8 _decimalUnits,
         string memory _tokenSymbol
-    ) {
+    ) public {
         balances[msg.sender] = _initialAmount; // Give the creator all initial tokens
         totalTokenSupply = _initialAmount; // Update total supply
         name = _tokenName; // Set the name for display purposes
@@ -29,7 +29,6 @@ contract erc20Token is erc20Interface {
     // transfer token from msg.sender to a specified address
     function transfer(address _to, uint256 _value)
         public
-        override
         returns (bool success)
     {
         require(
@@ -47,7 +46,7 @@ contract erc20Token is erc20Interface {
         address _from,
         address _to,
         uint256 _value
-    ) public override returns (bool success) {
+    ) public returns (bool success) {
         uint256 _allowance = allowed[_from][msg.sender];
         require(
             balances[_from] >= _value && _allowance >= _value,
@@ -66,7 +65,6 @@ contract erc20Token is erc20Interface {
     function balanceOf(address _owner)
         public
         view
-        override
         returns (uint256 balance)
     {
         return balances[_owner];
@@ -75,7 +73,6 @@ contract erc20Token is erc20Interface {
     // approve a specified address to spend a specified amount of tokens on behalf of msg.sender
     function approve(address _spender, uint256 _value)
         public
-        override
         returns (bool success)
     {
         allowed[msg.sender][_spender] = _value;
@@ -91,13 +88,12 @@ contract erc20Token is erc20Interface {
     function allowance(address _owner, address _spender)
         public
         view
-        override
         returns (uint256 remaining)
     {
         return allowed[_owner][_spender];
     }
 
-    function totalSupply() public view override returns (uint256 supply) {
+    function totalSupply() public view returns (uint256 supply) {
         return totalTokenSupply;
     }
 }
